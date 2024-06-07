@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_swipe"
+        android:icon="@drawable/ic_tab_clean_selected"
+        android:title="Swipe" />
+
+    <item
+        android:id="@+id/nav_clean"
+        android:icon="@drawable/ic_tab_clean_selected"
+        android:title="Clean" />
+
+    <item
+        android:id="@+id/nav_secret"
+        android:icon="@drawable/ic_tab_clean_selected"
+        android:title="Secret" />
+</menu>

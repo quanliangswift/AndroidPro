@@ -1,0 +1,20 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/nav_swipe">
+    <fragment
+        android:id="@+id/nav_swipe"
+        android:name="com.example.myapplication3.FragmentOne"
+        android:label="Swipe"
+        tools:layout="@layout/fragment_one" />
+    <fragment
+        android:id="@+id/nav_clean"
+        android:name="com.example.myapplication3.FragmentTwo"
+        android:label="Clean"
+        tools:layout="@layout/fragment_two" />
+    <fragment
+        android:id="@+id/nav_secret"
+        android:name="com.example.myapplication3.FragmentThree"
+        android:label="Secret"
+        tools:layout="@layout/fragment_three" />
+</navigation>
