@@ -46,8 +46,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-}
 
+}
+configurations {
+    cleanedAnnotations
+    implementation.exclude group: 'org.jetbrains', module: 'annotations'
+}
 dependencies {
 
     implementation libs.appcompat
@@ -65,6 +69,9 @@ dependencies {
     implementation libs.material3
     implementation libs.lifecycle.livedata.ktx
     implementation libs.lifecycle.viewmodel.ktx
+    implementation libs.room.common.jvm
+    annotationProcessor libs.room.compiler
+    implementation libs.room.runtime.android
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -72,5 +79,7 @@ dependencies {
     androidTestImplementation libs.ui.test.junit4
     debugImplementation libs.ui.tooling
     debugImplementation libs.ui.test.manifest
-//    implementation libs.fastjson
+    implementation libs.multidex
+    implementation libs.glide
+    annotationProcessor libs.compiler
 }

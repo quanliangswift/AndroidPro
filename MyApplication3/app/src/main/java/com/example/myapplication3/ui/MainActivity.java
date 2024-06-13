@@ -2,15 +2,20 @@ package com.example.myapplication3.ui;
 
 import com.example.myapplication3.R;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.myapplication3.databinding.ActivityMainBinding;
+import com.example.myapplication3.model.databases.AppDatabase;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 123; // 定义权限请求代码
 
     private ActivityMainBinding binding;
     private ViewPagerAdapter viewPagerAdapter;
@@ -28,13 +34,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-//        BottomNavigationView bottomNavigationView = binding.bottomNavigationView;
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-//                .findFragmentById(binding.navHostFragmentContainer.getId());
-//
-//        NavController navController = navHostFragment.getNavController();
-//        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         viewPagerAdapter = new ViewPagerAdapter(this);
         binding.viewPager.setAdapter(viewPagerAdapter);
@@ -53,19 +52,6 @@ public class MainActivity extends AppCompatActivity {
                     binding.viewPager.setCurrentItem(2);
                     return true;
                 }
-//                switch (menuItem.getItemId()) {
-//                    case R.id.nav_swipe:
-//                        binding.viewPager.setCurrentItem(0);
-//                        return true;
-//                    case R.id.nav_clean:
-//                        binding.viewPager.setCurrentItem(1);
-//                        return true;
-//                    case R.id.nav_secret:
-//                        binding.viewPager.setCurrentItem(2);
-//                        return true;
-//                    default:
-//                        return false;
-//                }
                 return false;
             }
         });
@@ -87,5 +73,45 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            String[] permissions = {
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_AUDIO
+            };
+
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
+        } else {
+            String[] permissions = {
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            };
+
+            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE) {
+            boolean allGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                    break;
+                }
+            }
+            if (allGranted) {
+                // 权限已授予，执行你的逻辑
+                AppDatabase.scanMediaFiles();
+            } else {
+                // 权限被拒绝，显示相应的提示
+            }
+        }
     }
 }

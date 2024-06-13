@@ -7,21 +7,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication3.common.app.MyApp;
+import com.example.myapplication3.common.utils.GlideUtils;
 import com.example.myapplication3.databinding.SwipeBigCardBinding;
 import com.example.myapplication3.databinding.SwipeSmallCardBinding;
 import com.example.myapplication3.databinding.TabItemViewBinding;
+import com.example.myapplication3.model.PhotoItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_SMALL = 0;
-    private static final int TYPE_BIG = 1;
-    private final List<String> data;
+    public static final int TYPE_SMALL = 0;
+    public static final int TYPE_BIG = 1;
+    private List<PhotoItem> mediaFiles = new ArrayList<>();
     private OnItemClickListener listener;
 
     // Constructor to initialize the data list
-    public RecyclerViewAdapter(List<String> data) {
-        this.data = data;
+
+
+    public void updateView(List<PhotoItem> mediaFiles) {
+        this.mediaFiles = mediaFiles;
+        
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -69,25 +76,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return mediaFiles.size();
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
+        PhotoItem photoItem = mediaFiles.get(position);
         if (viewType == TYPE_SMALL) {
-            ((SmallCardHolder) holder).binding.dateTextview.setText(data.get(position));
+            ((SmallCardHolder) holder).setData(photoItem, position);
         } else if (viewType == TYPE_BIG) {
-            ((BigCardHolder) holder).binding.dateTextview.setText(data.get(position));
+            ((BigCardHolder) holder).setData(photoItem, position);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position % 2 == 0) {
-            return TYPE_SMALL;
+        if (position % 3 == 0) {
+            return TYPE_BIG;
         }
-        return TYPE_BIG;
+        return TYPE_SMALL;
     }
 
     public class SmallCardHolder extends RecyclerView.ViewHolder {
@@ -98,6 +106,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.binding = binding;
         }
 
+        public void setData(PhotoItem photoItem, int position) {
+            binding.dateTextview.setText(photoItem.getDisplayName());
+            if (position % 2 == 0) {
+                binding.imgPhoto.setVisibility(View.INVISIBLE);
+                binding.imgPhoto2.setVisibility(View.INVISIBLE);
+                binding.imageView2.setVisibility(View.VISIBLE);
+            } else {
+                binding.imageView2.setVisibility(View.INVISIBLE);
+                binding.imgPhoto.setVisibility(View.VISIBLE);
+                binding.imgPhoto2.setVisibility(View.VISIBLE);
+                GlideUtils.load(MyApp.getmContext(), photoItem.getData(), binding.imgPhoto);
+                GlideUtils.load(MyApp.getmContext(), photoItem.getData(), binding.imgPhoto2);
+            }
+        }
     }
 
     public class BigCardHolder extends RecyclerView.ViewHolder {
@@ -108,5 +130,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.binding = binding;
         }
 
+        public void setData(PhotoItem photoItem, int position) {
+            binding.dateTextview.setText(photoItem.getDisplayName());
+        }
     }
 }
