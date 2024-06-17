@@ -1,5 +1,6 @@
 package com.example.myapplication3.ui;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,22 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_SMALL = 0;
     public static final int TYPE_BIG = 1;
+    private final LayoutInflater inflater;
     private List<PhotoItem> mediaFiles = new ArrayList<>();
     private OnItemClickListener listener;
+    private Context context;
 
     // Constructor to initialize the data list
 
 
+    public RecyclerViewAdapter(Context context) {
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+    }
+
     public void updateView(List<PhotoItem> mediaFiles) {
         this.mediaFiles = mediaFiles;
-        
+        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -38,7 +46,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == TYPE_SMALL) {
             SwipeSmallCardBinding binding = SwipeSmallCardBinding.inflate(inflater, parent, false);
             SmallCardHolder smallCardHolder = new SmallCardHolder(binding);

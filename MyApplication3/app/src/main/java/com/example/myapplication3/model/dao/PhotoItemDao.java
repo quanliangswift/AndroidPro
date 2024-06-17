@@ -29,7 +29,7 @@ public interface PhotoItemDao {
     LiveData<PhotoItem> getPhotoItemById(int id);
 
     @Query("SELECT * FROM " + PhotoItem.PhotoTabName + " ORDER BY dateAdded DESC LIMIT 1")
-    LiveData<PhotoItem> getNewesPhotoItem();
+    LiveData<PhotoItem> getNewestPhotoItem();
 
 
 }

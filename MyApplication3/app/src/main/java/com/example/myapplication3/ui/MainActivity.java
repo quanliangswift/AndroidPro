@@ -73,25 +73,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        checkPermissions();
     }
 
     private void checkPermissions() {
+        String[] permissions;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            String[] permissions = {
+            permissions = new String[]{
                     Manifest.permission.READ_MEDIA_VIDEO,
                     Manifest.permission.READ_MEDIA_IMAGES,
                     Manifest.permission.READ_MEDIA_AUDIO
             };
-
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
         } else {
-            String[] permissions = {
+            permissions = new String[]{
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             };
-
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
         }
+        ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE);
     }
 
     @Override

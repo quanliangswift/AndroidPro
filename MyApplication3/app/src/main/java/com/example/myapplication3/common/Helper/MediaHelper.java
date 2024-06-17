@@ -27,19 +27,15 @@ public class MediaHelper {
                 MediaStore.Files.FileColumns.PARENT
         };
         ContentResolver contentResolver = MyApp.getmContext().getContentResolver();
-//        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-//                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR "
-//                + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-//                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO + " AND "
-//                + MediaStore.Files.FileColumns.DATE_ADDED + ">= ?";
-
-//        String[] selectionArgs = new String[]{String.valueOf(dateAddedAfter / 1000)};
-//        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArgs, null);
-        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+        String selection = "(" + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR "
                 + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
-        Cursor cursor = contentResolver.query(uri, projection, selection, null, null);
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO + ") AND "
+                + MediaStore.Files.FileColumns.DATE_ADDED + "> ?";
+
+        String[] selectionArgs = new String[]{String.valueOf(dateAddedAfter)};
+        Cursor cursor = contentResolver.query(uri, projection, selection, selectionArgs, null);
+//
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID));
