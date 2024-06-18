@@ -20,6 +20,6 @@ public class SwipeViewModel extends ViewModel {
     }
 
     public void updatePhotoItems(List<PhotoItem> items) {
-
+        
     }
 }
