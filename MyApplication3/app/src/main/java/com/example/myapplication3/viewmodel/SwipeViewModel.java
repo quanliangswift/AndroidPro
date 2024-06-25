@@ -18,4 +18,8 @@ public class SwipeViewModel extends ViewModel {
     public LiveData<List<PhotoItem>> getPhotoItems() {
         return model.getPhotoItems();
     }
+
+    public void updatePhotoItems(List<PhotoItem> items) {
+        
+    }
 }

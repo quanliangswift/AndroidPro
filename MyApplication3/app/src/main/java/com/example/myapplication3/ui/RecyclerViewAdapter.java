@@ -12,13 +12,12 @@ import com.example.myapplication3.common.app.MyApp;
 import com.example.myapplication3.common.utils.GlideUtils;
 import com.example.myapplication3.databinding.SwipeBigCardBinding;
 import com.example.myapplication3.databinding.SwipeSmallCardBinding;
-import com.example.myapplication3.databinding.TabItemViewBinding;
 import com.example.myapplication3.model.PhotoItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerViewAdapter<V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_SMALL = 0;
     public static final int TYPE_BIG = 1;
     private final LayoutInflater inflater;

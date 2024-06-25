@@ -1,37 +1,31 @@
 package com.example.myapplication3.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.Toast;
 
-import com.example.myapplication3.common.app.MyApp;
 import com.example.myapplication3.databinding.FragmentOneBinding;
 import com.example.myapplication3.model.PhotoItem;
-import com.example.myapplication3.model.dao.PhotoItemDao;
-import com.example.myapplication3.model.databases.AppDatabase;
+import com.example.myapplication3.ui.swipedetail.SwipeDetailActivity;
 import com.example.myapplication3.viewmodel.SwipeViewModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class FragmentOne extends Fragment {
     private FragmentOneBinding binding;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerViewAdapter<RecyclerView.ViewHolder> recyclerViewAdapter;
     private List<PhotoItem> mediaFiles;
     private SwipeViewModel viewModel;
 
@@ -47,10 +41,11 @@ public class FragmentOne extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(this.getContext());
+        recyclerViewAdapter = new RecyclerViewAdapter<RecyclerView.ViewHolder>(this.getContext());
         recyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                startActivity(new Intent(FragmentOne.this.getContext(), SwipeDetailActivity.class));
                 Toast.makeText(FragmentOne.this.getContext(), mediaFiles.get(position).getDisplayName(), Toast.LENGTH_SHORT).show();
             }
         });
